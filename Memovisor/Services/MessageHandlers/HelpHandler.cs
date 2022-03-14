@@ -11,9 +11,9 @@ namespace Memovisor.Services.MessageHandlers
         {
             var builder = new StringBuilder();
             builder.AppendLine("Короче:");
-            builder.AppendLine("Можно скинуть фотку");
-            builder.AppendLine("Можно скинуть гифку");
-            builder.AppendLine("Даже mp4-файл можно");
+            builder.AppendLine("Можно скинуть фотку 📷");
+            builder.AppendLine("Можно скинуть гифку 🖼");
+            builder.AppendLine("Даже mp4-файл можно 🎥");
             builder.AppendLine("");
             builder.AppendLine("Можно смешное. Можно милое. Но давай только без большого текста😉");
 

@@ -1,5 +1,6 @@
 ﻿using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 
 namespace Memovisor.Services.MessageHandlers
 {
@@ -14,17 +15,18 @@ namespace Memovisor.Services.MessageHandlers
 
         public async Task Handle(ITelegramBotClient botClient, Message message)
         {
+            await botClient.SendChatActionAsync(message.Chat.Id, ChatAction.UploadDocument);
             var file = await botClient.GetFileAsync(message.Document.FileId);
-            var extension = Path.GetExtension(file.FilePath);
-            var fileName = $"/images/meme_{Guid.NewGuid()}{extension}";
-            string filePath = $"wwwroot{fileName}";
-            FileStream fs = new FileStream(filePath, FileMode.Create);
-            await botClient.DownloadFileAsync(file.FilePath, fs);
-            fs.Close();
-            fs.Dispose();
+            if (Path.GetExtension(file.FilePath) != ".mp4")
+            {
+                await botClient.SendTextMessageAsync(
+                    chatId: message.Chat.Id,
+                    text: "Ненене! Такой файл не подходит. Расшерение .mp4 надо");
+                return;
+            }
 
+            var fileName = await botClient.DownloadFile(file);
             storage.SetLastMemeUrl(fileName);
-
             await botClient.SendTextMessageAsync(chatId: message.Chat.Id,
                                                  text: "Woow!");
         }
