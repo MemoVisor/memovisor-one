@@ -1,0 +1,108 @@
+﻿@page
+@model IndexModel
+
+<script>
+    let memeUrl;
+    function getLastMem() {
+      fetch('/api/memes/last/')
+        .then(response => response.json())
+        .then(data => {
+            if (memeUrl == data.url){
+              return;
+            }
+            memeUrl = data.url
+            const image = document.getElementById('image');
+            const video = document.querySelector('#video');
+            const a = data.url.split('.');
+            if (a[a.length - 1] === 'mp4') {
+                video.setAttribute('src', memeUrl);
+                image.style.display = 'none';
+                video.style.display = 'block';
+            }
+            else {
+                image.setAttribute('src', memeUrl);
+                video.style.display = 'none';
+                image.style.display = 'block';
+            }            
+        });
+    }
+
+    const colors = [
+            'red',
+            'blue',
+            'deeppink',
+            'green',
+            'purple',
+            'orange',
+            'aqua',
+            'rosybrown',
+            'greenyellow',
+    ];
+
+    function getRandomInt(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+    }
+
+    function getHeading() {
+      let header = document.getElementById('header');
+      header.innerHTML = '';
+
+      const title = 'Memovisor';
+
+      for (let char of title) {
+
+        const index = getRandomInt(0, colors.length - 1);
+        let letter = document.createElement('span');
+        letter.style.setProperty('color', colors[index]);
+
+        letter.innerHTML = char;
+        header.appendChild(letter)
+      }
+    }
+
+    window.addEventListener('load', () => {
+      setInterval(getHeading, 200);
+      setInterval(getLastMem, 1000);
+    });
+</script>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+    }
+
+    .header {
+        padding: 20px 0 0 0;
+        font-size: 40px;
+        display: flex;
+        font-family: 'Hand Writing', sans-serif;
+        justify-content: center;
+        letter-spacing: 1rem;
+        font-weight: 700;
+        align-content: center;
+    }
+
+    .image {
+        height: 100%;
+    }
+
+    .mem-container {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        margin: 20px;
+        height: calc(100vh - 105px);
+        flex-grow: 1;
+    }
+</style>
+
+<header class="header" id="header"></header>
+<div class="mem-container" id="container">
+    <img id="image" class="image" />
+    <video id="video" class="image" autoplay muted controls loop/>
+</div>
