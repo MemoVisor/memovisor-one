@@ -16,6 +16,7 @@ namespace Memovisor.Services.MessageHandlers
             builder.AppendLine("Даже mp4-файл можно 🎥");
             builder.AppendLine("");
             builder.AppendLine("Можно смешное. Можно милое. Но давай только без большого текста😉");
+            builder.AppendLine("Ну и команды в клавиатуре /kb");
 
             await botClient.SendTextMessageAsync(chatId: message.Chat.Id,
                                                  text: builder.ToString(),

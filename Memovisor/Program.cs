@@ -27,6 +27,7 @@ builder.Services.AddTransient<DocumentHandler>();
 builder.Services.AddTransient<CommandsHandler>();
 
 builder.Services.AddTransient<GetCommandHandler>();
+builder.Services.AddTransient<ShowKeyboardCommand>();
 
 
 var policyPreflightMaxAge = TimeSpan.FromDays(1);

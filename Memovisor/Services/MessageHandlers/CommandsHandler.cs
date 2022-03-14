@@ -16,6 +16,11 @@ namespace Memovisor.Services.MessageHandlers
         public Task Handle(ITelegramBotClient botClient, Message message)
         {
             ICommandHandler? command = null;
+
+            if (message.Text.StartsWith("/kb"))
+            {
+                command = serviceProvider.GetRequiredService<ShowKeyboardCommand>();
+            }
             
             if (message.Text.StartsWith("/get"))
             {
