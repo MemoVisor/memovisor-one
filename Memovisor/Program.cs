@@ -1,10 +1,15 @@
 using Memovisor.Services;
+using Memovisor.Services.MessageHandlers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddSingleton<InMemoryImageStorage>();
+builder.Services.AddSingleton<InMemoryImageStorage>(provider =>
+    {
+        var baseUrl = builder.Configuration.GetValue<string>("Application:Host");
+        return new InMemoryImageStorage(baseUrl);
+    });
 builder.Services.AddTransient<Handlers>();
 builder.Services.AddSingleton<TelegramService>(provider =>
     {
@@ -12,6 +17,12 @@ builder.Services.AddSingleton<TelegramService>(provider =>
         var token = builder.Configuration.GetValue<string>("TelegramBot:Token");
         return new TelegramService(token, handlers);
     });
+
+builder.Services.AddTransient<HandlerFactory>();
+builder.Services.AddTransient<HelpHandler>();
+builder.Services.AddTransient<UrlHandler>();
+builder.Services.AddTransient<PhotoHandler>();
+builder.Services.AddTransient<DocumentHandler>();
 
 var policyPreflightMaxAge = TimeSpan.FromDays(1);
 
