@@ -364,3 +364,4 @@ FodyWeavers.xsd
 
 # app
 Memovisor/appsettings.json
+Memovisor/wwwroot/images/
