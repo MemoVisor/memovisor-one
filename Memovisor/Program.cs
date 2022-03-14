@@ -1,4 +1,5 @@
 using Memovisor.Services;
+using Memovisor.Services.CommandHandlers;
 using Memovisor.Services.MessageHandlers;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,6 +24,10 @@ builder.Services.AddTransient<HelpHandler>();
 builder.Services.AddTransient<UrlHandler>();
 builder.Services.AddTransient<PhotoHandler>();
 builder.Services.AddTransient<DocumentHandler>();
+builder.Services.AddTransient<CommandsHandler>();
+
+builder.Services.AddTransient<GetCommandHandler>();
+
 
 var policyPreflightMaxAge = TimeSpan.FromDays(1);
 

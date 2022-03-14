@@ -13,6 +13,8 @@
 
         public string GetLastMemeUrl() => Path.Combine(baseUrl, lastMemeUrl);
 
-        public void SetLastMemeUrl(string url) => lastMemeUrl = url;
+        public string LocalMemeUrl => Path.Combine("wwwroot", lastMemeUrl);
+
+        public void SetLastMemeUrl(string url) => lastMemeUrl = url.Trim('/');
     }
 }

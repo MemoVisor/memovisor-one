@@ -14,6 +14,11 @@ namespace Memovisor.Services
 
         public IHandler GetHandler(Message message)
         {
+            if (!string.IsNullOrEmpty(message.Text) 
+                && message.Text.StartsWith("/"))
+            {
+                return serviceProvider.GetRequiredService<CommandsHandler>();
+            }
             if (message.Photo != null)
             {
                 return serviceProvider.GetRequiredService<PhotoHandler>();
